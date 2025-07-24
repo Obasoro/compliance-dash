@@ -1,0 +1,79 @@
+{
+  "last_updated": "2025-07-24T16:02:54.841387513Z",
+  "index": {
+    "blocks": [
+      {
+        "id": "3f2fc144-add1-4037-bbe6-2311d9a59b89",
+        "provider": "Dockerfile",
+        "provisioner": "Dockerfile",
+        "language": "Dockerfile",
+        "key": "file:///home/kunleobasoro/compliance-dash/backend/Dockerfile",
+        "digest": 6520472110844844191,
+        "references": [],
+        "kind": "Dockerfile",
+        "type": null,
+        "name": null,
+        "config": null,
+        "document_uri": "file:///home/kunleobasoro/compliance-dash/backend/Dockerfile",
+        "code": "# Build stage\nFROM node:18-alpine AS builder\n\nWORKDIR /app\n\n# Copy package files for better layer caching\nCOPY package*.json ./\n\n# Install all dependencies (including devDependencies for building)\nRUN npm ci\n\n# Copy source code\nCOPY . .\n\n# Generate Prisma client (if schema exists)\nRUN if [ -f \"prisma/schema.prisma\" ]; then npx prisma generate; fi\n\n# Build TypeScript to JavaScript\nRUN npx tsc\n\n# Production stage\nFROM node:18-alpine AS production\n\nWORKDIR /app\n\n# Create non-root user\nRUN addgroup -g 1001 -S nodejs && \\\n    adduser -S nextjs -u 1001\n\n# Copy package files\nCOPY package*.json ./\n\n# Install only production dependencies\nRUN npm ci --only=production && npm cache clean --force\n\n# Copy built application from builder stage\nCOPY --from=builder /app/dist ./dist\nCOPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma\n\n# Copy Prisma schema if needed for runtime\nCOPY --from=builder /app/prisma ./prisma\n\n# Change ownership to non-root user\nRUN chown -R nextjs:nodejs /app\nUSER nextjs\n\n# Set environment variables\nENV NODE_ENV=production\nENV PORT=4000\n\n# Expose port\nEXPOSE 4000\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\\n  CMD node -e \"require('http').get('http://localhost:${PORT}/', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })\"\n\n# Start the application\nCMD [\"node\", \"dist/index.js\"]\n",
+        "start_byte": 0,
+        "end_byte": 1371,
+        "start_point": {
+          "row": 0,
+          "column": 0
+        },
+        "end_point": {
+          "row": 59,
+          "column": 0
+        },
+        "state": null,
+        "updated_at": null,
+        "created_at": null,
+        "dependents": [],
+        "dependencies": [],
+        "api_group_version": null,
+        "generated_summary": null
+      },
+      {
+        "id": "801bef71-2e91-441d-bb4b-4a9ff77e6212",
+        "provider": "Dockerfile",
+        "provisioner": "Dockerfile",
+        "language": "Dockerfile",
+        "key": "file:///home/kunleobasoro/compliance-dash/frontend/Dockerfile",
+        "digest": 1507595277623911278,
+        "references": [],
+        "kind": "Dockerfile",
+        "type": null,
+        "name": null,
+        "config": null,
+        "document_uri": "file:///home/kunleobasoro/compliance-dash/frontend/Dockerfile",
+        "code": "# Build stage\nFROM node:18-alpine as build\n\n# Create app directory\nWORKDIR /app\n\n# Create non-root user for security\nRUN addgroup -g 1001 -S nodejs && \\\n    adduser -S nextjs -u 1001\n\n# Copy package files first for better caching\nCOPY package.json package-lock.json* ./\n\n# Install dependencies\nRUN npm ci --only=production --ignore-scripts\n\n# Copy source code\nCOPY . .\n\n# Change ownership to non-root user\nRUN chown -R nextjs:nodejs /app\nUSER nextjs\n\n# Build the application\nRUN npm run build\n\n# Production stage\nFROM nginx:alpine\n\n# Install dumb-init for proper signal handling\nRUN apk add --no-cache dumb-init\n\n# Create non-root user for nginx\nRUN addgroup -g 1001 -S nginx && \\\n    adduser -S nginx -u 1001 -G nginx\n\n# Copy nginx configuration\nCOPY nginx.conf /etc/nginx/conf.d/default.conf\n\n# Copy built static files from build stage\nCOPY --from=build --chown=nginx:nginx /app/build /usr/share/nginx/html\n\n# Create nginx cache and log directories with proper permissions\nRUN mkdir -p /var/cache/nginx /var/log/nginx /var/run && \\\n    chown -R nginx:nginx /var/cache/nginx /var/log/nginx /var/run /usr/share/nginx/html\n\n# Switch to non-root user\nUSER nginx\n\n# Expose port 3000\nEXPOSE 3000\n\n# Use dumb-init to handle signals properly and run nginx in foreground\nCMD [\"dumb-init\", \"nginx\", \"-g\", \"daemon off;\"]\n",
+        "start_byte": 0,
+        "end_byte": 1312,
+        "start_point": {
+          "row": 0,
+          "column": 0
+        },
+        "end_point": {
+          "row": 54,
+          "column": 0
+        },
+        "state": null,
+        "updated_at": null,
+        "created_at": null,
+        "dependents": [],
+        "dependencies": [],
+        "api_group_version": null,
+        "generated_summary": null
+      }
+    ],
+    "errors": [],
+    "warnings": [
+      {
+        "uri": "file:///home/kunleobasoro/compliance-dash/backend/docker-compose.yml",
+        "message": "Unsupported document type.",
+        "details": null
+      }
+    ]
+  }
+}

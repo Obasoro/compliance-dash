@@ -1,0 +1,334 @@
+# ==============================================================================
+# .dockerignore for React TypeScript Frontend Application
+# ==============================================================================
+# This file tells Docker which files and directories to exclude when building
+# the image to optimize build performance and enhance security.
+
+# ==============================================================================
+# Node.js Dependencies and Package Manager Files
+# ==============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm/
+.yarn/
+.pnpm-store/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# ==============================================================================
+# Build Artifacts and Output Directories
+# ==============================================================================
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+
+# ==============================================================================
+# Cache and Temporary Directories
+# ==============================================================================
+.tmp/
+.temp/
+.cache/
+.parcel-cache/
+.vite/
+.vitepress/cache/
+.rollup.cache/
+.turbo/
+
+# Webpack cache
+.webpack/
+
+# ==============================================================================
+# TypeScript Build Information
+# ==============================================================================
+*.tsbuildinfo
+.tscache/
+
+# ==============================================================================
+# Testing and Coverage
+# ==============================================================================
+coverage/
+.coverage/
+.nyc_output/
+lib-cov/
+.jest/
+jest/
+cypress/
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+cypress/fixtures/
+.cypress/
+reports/
+test-results/
+playwright-report/
+test-results/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ==============================================================================
+# Environment and Configuration Files (Security Critical)
+# ==============================================================================
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging
+.env.production
+
+# Configuration files that might contain secrets
+config/local.json
+config/production.json
+config/staging.json
+.config/
+secrets/
+.secrets/
+
+# ==============================================================================
+# Git and Version Control
+# ==============================================================================
+.git/
+.gitignore
+.gitattributes
+.gitmodules
+.gitkeep
+.svn/
+.hg/
+.bzr/
+CVS/
+
+# ==============================================================================
+# IDE and Editor Files
+# ==============================================================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# IntelliJ IDEA / WebStorm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Atom
+.atom/
+
+# ==============================================================================
+# OS-Specific Files
+# ==============================================================================
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ==============================================================================
+# Documentation and README Files
+# ==============================================================================
+README.md
+README.txt
+CHANGELOG.md
+CHANGELOG.txt
+CONTRIBUTING.md
+LICENSE
+LICENSE.txt
+LICENSE.md
+NOTICE
+AUTHORS
+CONTRIBUTORS
+docs/
+documentation/
+*.md
+*.txt
+*.rst
+
+# ==============================================================================
+# Docker-Related Files
+# ==============================================================================
+Dockerfile
+Dockerfile.*
+.dockerignore
+docker-compose.yml
+docker-compose.yaml
+docker-compose.*.yml
+docker-compose.*.yaml
+docker-compose.override.yml
+.docker/
+
+# ==============================================================================
+# CI/CD and Deployment
+# ==============================================================================
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+.jenkins/
+.azure-pipelines.yml
+.buildkite/
+.drone.yml
+.semaphore/
+Jenkinsfile
+.gitlab/
+.bitbucket-pipelines.yml
+
+# Kubernetes
+k8s/
+kubernetes/
+*.yaml
+*.yml
+
+# Terraform
+*.tf
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# ==============================================================================
+# Logs and Runtime Files
+# ==============================================================================
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+lib-cov/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ==============================================================================
+# Development and Debugging Tools
+# ==============================================================================
+.storybook/
+storybook-static/
+chromatic-build/
+
+# Debugging
+.vscode/launch.json
+.vscode/settings.json
+
+# Profiling
+*.cpuprofile
+*.heapprofile
+*.heapsnapshot
+
+# ==============================================================================
+# Package Manager Lock Files (Optional - uncomment if not needed in container)
+# ==============================================================================
+# Uncomment these if you're installing packages fresh in the container
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ==============================================================================
+# Miscellaneous
+# ==============================================================================
+.editorconfig
+.prettierrc*
+.prettierignore
+.stylelintrc*
+.stylelintignore
+.commitlintrc*
+.huskyrc*
+.lintstagedrc*
+.nvmrc
+.node-version
+.tool-versions
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.tmp
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
