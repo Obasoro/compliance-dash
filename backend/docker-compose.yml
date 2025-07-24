@@ -1,0 +1,67 @@
+# Docker Compose configuration for Node.js TypeScript Backend Application
+# This configuration sets up a production-ready backend service with health checks,
+# environment variables, and optional development volume mounting.
+
+services:
+  backend:
+    # Backend service configuration
+    image: node:18-alpine  # Use Node.js 18 Alpine for smaller image size
+    container_name: backend-app
+    
+    # Port mapping - backend runs on port 4000
+    ports:
+      - "4000:4000"
+    
+    # Working directory inside container
+    working_dir: /app
+    
+    # Command to start the application (adjust based on your package.json scripts)
+    command: ["npm", "run", "start"]
+    
+    # Environment variables required by the application
+    environment:
+      # AWS Configuration
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      
+      # OpenAI Configuration
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      
+      # Database Configuration (optional for Prisma)
+      - DATABASE_URL=${DATABASE_URL}
+      
+      # Node.js Environment
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=4000
+    
+    # Health check configuration
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    
+    # Restart policy for production readiness
+    restart: unless-stopped
+    
+    # Optional: Volume mounting for development
+    # Uncomment the following lines for development mode
+    # volumes:
+    #   - ./src:/app/src:ro  # Mount source code as read-only
+    #   - ./package.json:/app/package.json:ro
+    #   - ./package-lock.json:/app/package-lock.json:ro
+    #   - ./tsconfig.json:/app/tsconfig.json:ro
+    #   - /app/node_modules  # Prevent overwriting node_modules
+    
+    # Network configuration
+    networks:
+      - backend-network
+
+# Network definition for service isolation
+networks:
+  backend-network:
+    driver: bridge
+    name: backend-network
