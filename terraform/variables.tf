@@ -88,3 +88,46 @@ variable "tags" {
     ManagedBy   = "terraform"
   }
 }
+
+# Docker Build Variables
+variable "build_backend" {
+  description = "Enable backend Docker image build"
+  type        = bool
+  default     = true
+}
+
+variable "build_frontend" {
+  description = "Enable frontend Docker image build"
+  type        = bool
+  default     = false
+}
+
+variable "auto_push_images" {
+  description = "Automatically push built images to ECR"
+  type        = bool
+  default     = true
+}
+
+variable "docker_platform" {
+  description = "Docker platform for builds (e.g., linux/amd64, linux/arm64)"
+  type        = string
+  default     = "linux/amd64"
+}
+
+variable "create_build_info" {
+  description = "Create build-info.json file with build metadata"
+  type        = bool
+  default     = true
+}
+
+variable "force_rebuild" {
+  description = "Force Docker image rebuild (no cache)"
+  type        = bool
+  default     = false
+}
+
+variable "keep_images_locally" {
+  description = "Keep Docker images locally after terraform destroy"
+  type        = bool
+  default     = false
+}

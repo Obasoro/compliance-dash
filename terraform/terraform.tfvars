@@ -17,6 +17,15 @@ dev_image_count      = 5
 # Cross-account access (disabled)
 enable_cross_account_access = false
 
+# Enhanced Docker Build Configuration
+build_backend       = true   # Enable backend Docker build
+build_frontend      = false  # Enable frontend Docker build (set to true if you have frontend/Dockerfile)
+auto_push_images    = true   # Automatically push to ECR after build
+docker_platform     = "linux/amd64"  # Docker platform
+create_build_info   = true   # Create build-info.json with comprehensive metadata
+force_rebuild       = false  # Force rebuild without cache (useful for debugging)
+keep_images_locally = false  # Keep images locally after terraform destroy
+
 # Tags
 tags = {
   Environment = "development"

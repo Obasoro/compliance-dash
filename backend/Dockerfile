@@ -1,6 +1,13 @@
 # Build stage
 FROM node:18-alpine AS builder
 
+# Build arguments for version information
+ARG GIT_COMMIT=unknown
+ARG GIT_BRANCH=unknown
+ARG GIT_TAG=
+ARG BUILD_DATE=unknown
+ARG VERSION=latest
+
 WORKDIR /app
 
 # Copy package files for better layer caching
@@ -35,10 +42,11 @@ RUN npm ci --only=production && npm cache clean --force
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-# Copy Prisma schema if needed for runtime
-COPY --from=builder /app/prisma ./prisma
+# Note: Prisma files are not present in this project, so we skip copying them
+# If you add Prisma later, uncomment and modify these lines:
+# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+# COPY --from=builder /app/prisma ./prisma
 
 # Change ownership to non-root user
 RUN chown -R nextjs:nodejs /app
@@ -47,6 +55,13 @@ USER nextjs
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=4000
+
+# Add version information as environment variables
+ENV GIT_COMMIT=${GIT_COMMIT}
+ENV GIT_BRANCH=${GIT_BRANCH}
+ENV GIT_TAG=${GIT_TAG}
+ENV BUILD_DATE=${BUILD_DATE}
+ENV VERSION=${VERSION}
 
 # Expose port
 EXPOSE 4000
