@@ -1,0 +1,28 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# ECR Repository Configuration
+repository_name = "compliance-dash"
+
+# Security Settings
+image_tag_mutability = "IMMUTABLE"  # Use IMMUTABLE for production
+scan_on_push         = true
+encryption_type      = "KMS"        # Use KMS for enhanced security
+
+# Lifecycle Policy Settings
+max_image_count      = 20    # Keep last 20 production images
+untagged_image_days  = 1     # Delete untagged images after 1 day
+dev_image_count      = 10    # Keep last 10 development images
+
+# Cross-account access (optional)
+enable_cross_account_access = false
+# allowed_account_ids = ["123456789012", "987654321098"]
+
+# Tags
+tags = {
+  Environment = "production"
+  Project     = "compliance-dash"
+  Owner       = "devops-team"
+  ManagedBy   = "terraform"
+  CostCenter  = "engineering"
+}
